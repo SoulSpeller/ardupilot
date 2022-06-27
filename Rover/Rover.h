@@ -35,7 +35,7 @@
 #include <AP_Compass/AP_Compass.h>                  // ArduPilot Mega Magnetometer Library
 #include <AP_Declination/AP_Declination.h>          // Compass declination library
 #include <AP_InertialSensor/AP_InertialSensor.h>    // Inertial Sensor (uncalibated IMU) Library
-//#include <AP_L1_Control/AP_L1_Control.h>
+#include <AP_L1_Control/AP_L1_Control.h>
 #include<AR_Los_Control/AR_Los_Control.h>
 #include <AP_Math/AP_Math.h>                        // ArduPilot Mega Vector/Matrix math Library
 #include <AP_Mission/AP_Mission.h>                  // Mission command library
@@ -160,7 +160,7 @@ private:
     // Arming/Disarming management class
     AP_Arming_Rover arming;
 
-//    AP_L1_Control L1_controller{ahrs, nullptr};
+    AP_L1_Control L1_controller{ahrs, nullptr};
     AR_Los_Control los_controller{ahrs};
 
 #if AP_AHRS_NAVEKF_AVAILABLE
