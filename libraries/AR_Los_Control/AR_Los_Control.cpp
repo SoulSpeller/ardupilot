@@ -194,7 +194,7 @@ void AR_Los_Control::update_waypoint(const struct Location &prev_WP, const struc
 	
 	// Calculate the NE position of WP B relative to WP A
     Vector2f AB = prev_WP.get_distance_NE(next_WP);
-    float AB_length = AB.length();
+//    float AB_length = AB.length(); // unused variable
 	
 	// Check for AB zero length and track directly to the destination
     // if too small
@@ -219,22 +219,22 @@ void AR_Los_Control::update_waypoint(const struct Location &prev_WP, const struc
 	//Determine if the aircraft is behind a +-135 degree degree arc centred on WP A
     //and further than L1 distance from WP A. Then use WP A as the L1 reference point
     //Otherwise do normal L1 guidance
-    float WP_A_dist = A_air.length();
+//    float WP_A_dist = A_air.length(); // unused variable
     float alongTrackDist = A_air * AB;
 	
 	
 	
 	// key algorithm, step one, calc the los angle
 	float Rlos = 0.0f;
-	if (_crosstrack_error < _boat_length * _lookaway_coef) {
+	if (fabsf(_crosstrack_error) < _boat_length * _lookaway_coef) {
 		Rlos = _boat_length * _lookaway_coef;
 	}
 	else {
-		Rlos = _boat_length + _crosstrack_error;
+		Rlos = _boat_length + fabsf(_crosstrack_error);
 	}
 	
 	// AL means A(prevWp) to L(lospoint)
-	float AL_length = alongTrackDist + safe_sqrt(Rlos * Rlos -  _crosstrack_error * _crosstrack_error);
+	float AL_length = fabsf(alongTrackDist) + safe_sqrt(Rlos * Rlos -  _crosstrack_error * _crosstrack_error);
 	Vector2f AL = AB * AL_length;
 	Vector2f Air_L = AL - A_air;
 	_nav_bearing = Air_L.angle();
