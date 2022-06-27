@@ -434,16 +434,24 @@ void Mode::navigate_to_waypoint()
         calc_steering_to_heading(desired_heading_cd, turn_rate);
     } else {
         // retrieve turn rate from waypoint controller
-        float desired_turn_rate_rads = g2.wp_nav.get_turn_rate_rads();
+        //float desired_turn_rate_rads = g2.wp_nav.get_turn_rate_rads();
 
         // if simple avoidance is active at very low speed do not attempt to turn
-        if (g2.avoid.limits_active() && (fabsf(attitude_control.get_desired_speed()) <= attitude_control.get_stop_speed())) {
-            desired_turn_rate_rads = 0.0f;
-        }
+        //if (g2.avoid.limits_active() && (fabsf(attitude_control.get_desired_speed()) <= attitude_control.get_stop_speed())) {
+        //    desired_turn_rate_rads = 0.0f;
+        //}
 
         // call turn rate steering controller
-        calc_steering_from_turn_rate(desired_turn_rate_rads);
+        //calc_steering_from_turn_rate(desired_turn_rate_rads);
+        
+        sta_calc_steering_from_heading(g2.wp_nav.nav_bearing_cd());
     }
+}
+
+void Mode::sta_calc_steering_from_heading(float desired_heading_cd)
+{
+    const float steering_out = attitude_control.sta_cacl_steering_out_heading(radians(desired_heading_cd*0.01f), rover.G_Dt);
+    set_steering(steering_out * 4500.0f);
 }
 
 // calculate steering output given a turn rate

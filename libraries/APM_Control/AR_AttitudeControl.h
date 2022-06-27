@@ -4,6 +4,7 @@
 #include <AP_Common/AP_Common.h>
 #include <AC_PID/AC_PID.h>
 #include <AC_PID/AC_P.h>
+#include <AR_LOS_Control/AR_STA_Controller.h>
 
 // attitude control default definition
 #define AR_ATTCONTROL_STEER_ANG_P       2.50f
@@ -64,6 +65,9 @@ public:
     // set rate_max_rads to a non-zero number to apply a limit on the desired turn rate
     // return value is normally in range -1.0 to +1.0 but can be higher or lower
     float get_steering_out_heading(float heading_rad, float rate_max_rads, bool motor_limit_left, bool motor_limit_right, float dt);
+
+    // sta algrithm . call the sta controller to calc steering
+    float sta_cacl_steering_out_heading(float heading_rad, float dt);
 
     // return a desired turn-rate given a desired heading in radians
     // normally the results are later passed into get_steering_out_rate
@@ -194,4 +198,6 @@ private:
     // Sailboat heel control
     AC_PID   _sailboat_heel_pid;    // Sailboat heel angle pid controller
     uint32_t _heel_controller_last_ms = 0;
+
+    AR_STA_Controller  _steer_sta_controller{1, 90, 21, 5, 5};
 };

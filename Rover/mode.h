@@ -175,6 +175,9 @@ protected:
     // rate_max is a maximum turn rate in deg/s.  set to zero to use default turn rate limits
     void calc_steering_to_heading(float desired_heading_cd, float rate_max_degs = 0.0f);
 
+    // sta algrithm calc steering output to drieve towwards desired heading
+    void sta_calc_steering_from_heading(float desired_heading_cd);
+
     // calculates the amount of throttle that should be output based
     // on things like proximity to corners and current speed
     virtual void calc_throttle(float target_speed, bool avoidance_enabled);

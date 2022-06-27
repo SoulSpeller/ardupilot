@@ -511,6 +511,19 @@ float AR_AttitudeControl::get_steering_out_rate(float desired_rate, bool motor_l
     return output;
 }
 
+float AR_AttitudeControl::sta_cacl_steering_out_heading(float heading_rad, float dt)
+{
+    // sanity check dt
+    dt = constrain_float(dt, 0.0f, 1.0f);
+
+    // set sta controller's dt
+    _steer_sta_controller.set_dt(dt);
+
+    float output = _steer_sta_controller.update(heading_rad, _ahrs.get_yaw(), _ahrs.get_yaw_rate_earth());
+    
+    return output;
+}
+
 // get latest desired turn rate in rad/sec (recorded during calls to get_steering_out_rate)
 float AR_AttitudeControl::get_desired_turn_rate() const
 {
