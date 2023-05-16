@@ -245,7 +245,8 @@ void AR_Los_Control::update_waypoint(const struct Location &prev_WP, const struc
 	_slide_angle = slideEstimator.update(_crosstrack_error, groundSpeed, get_yaw()-AB.angle());
 	
 	// step three, compensate the los angle with slide angle
-	_nav_bearing += _slide_angle;
+    // 20230516 in order to do experiment to compare to pure los guidance law, dont compensate the slide angle
+	// _nav_bearing += _slide_angle;  
 	
 	
 	_bearing_error = _nav_bearing - get_yaw();
